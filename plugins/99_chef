@@ -31,14 +31,14 @@ if [ -z "${CHEF_CONFIG_DIR-}" ]; then
 fi
 
 log "Installing Chef client..."
-#chroot ${mnt} apt-get install -y curl
-#url=${OPSCODE_URL:-http://opscode.com/chef/install.sh}
-#chroot ${mnt} /bin/bash -c "curl -SsL $url | /bin/bash"
+    #chroot ${mnt} apt-get install -y curl
+    #url=${OPSCODE_URL:-http://opscode.com/chef/install.sh}
+    #chroot ${mnt} /bin/bash -c "curl -SsL $url | /bin/bash"
 cp ${CHEF_CONFIG_DIR}/*.deb ${mnt}/root
-chroot ${mnt} /bin/bash -c "dpkg -i /root/chef*.deb" # need bash for glob
+chroot ${mnt} /bin/bash -c "dpkg -i /root/chef*.deb" # bash process expands glob
 
-# XXX assignment of default value;
-#     (currently exported by rekick-fakecloud.sh)
+# NB assignment of default value;
+#    (currently exported by rekick-fakecloud.sh)
 log "Configuring Knife to use Chef server '${CHEF_HOSTNAME:=chef}' ..."
 
 cp -rL ${CHEF_CONFIG_DIR}/.chef/ ${mnt}/root
