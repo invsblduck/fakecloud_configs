@@ -1,0 +1,37 @@
+# vim: set ft=sh :
+
+function neutron_bounce()
+{
+    local action=${1:-restart}
+    local services=(
+        openvswitch-switch
+        neutron-server
+        neutron-dhcp-agent
+        neutron-metadata-agent
+        neutron-plugin-openvswitch-agent
+    )
+    for i in "${services[@]}"; do sudo $action $i; done
+}
+
+function nova_bounce()
+{
+    local action=${1:-restart}
+    local services=(
+        openvswitch-switch
+        neutron-plugin-openvswitch-agent
+    )
+    for i in /etc/init/*nova*; do
+        services=("${services[@]}" $(basename $i .conf))
+    done
+    for i in "${services[@]}"; do sudo $action $i; done
+}
+
+alias neutr=neutron_bounce
+alias neutrs='neutron_bounce start'
+alias neutrss='neutron_bounce stop'
+
+alias novar=nova_bounce
+alias novars='nova_bounce start'
+alias novarss='nova_bounce stop'
+
+alias ov='sudo ovs-vsctl'

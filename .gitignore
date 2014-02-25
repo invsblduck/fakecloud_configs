@@ -1,0 +1,13 @@
+# fakecloud-generated shit to ignore
+/base
+/cache
+/instances
+/minibase
+
+# secret keys and large binaries to ignore
+/chef/*.pem
+/chef/*.deb
+/chef/*.rpm
+
+# misc
+.*.swp
