@@ -35,4 +35,5 @@ alias novars='nova_bounce start'
 alias novarss='nova_bounce stop'
 
 alias ov='sudo ovs-vsctl'
-alias nn='ip netns exec vips'
+alias nn='ip netns'
+alias nnv='ip netns exec vips'
