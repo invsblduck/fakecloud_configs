@@ -1,1 +1,0 @@
-/home/duck/.vim

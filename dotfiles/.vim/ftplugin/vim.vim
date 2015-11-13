@@ -1,0 +1,1 @@
+/home/duck/.vim/ftplugin/vim.vim
