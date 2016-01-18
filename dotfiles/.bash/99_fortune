@@ -1,0 +1,5 @@
+if [ -e ~/.motd ]; then
+    echo -e "\e[34m"
+    cat ~/.motd
+    echo -e "\e[0m"
+fi
