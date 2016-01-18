@@ -1,0 +1,20 @@
+# vim: set ft=sh :
+
+alias cc='sudo salt-call'
+alias ct='sudo salt-call state.sls'
+alias ccpi='sudo salt-call pillar.items'
+alias ccpg='sudo salt-call pillar.get'
+alias ccgi='sudo salt-call grains.items'
+alias ccgg='sudo salt-call grains.get'
+
+function ctt()
+{
+    local state=$1
+
+    if [ -z "$state" ]; then
+        echo "please pass a Salt state name" >&2
+        return
+    fi
+
+    sudo salt-call state.sls "$state" test=True
+}
