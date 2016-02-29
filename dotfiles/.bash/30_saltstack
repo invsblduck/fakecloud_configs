@@ -1,20 +1,38 @@
 # vim: set ft=sh :
 
 alias cc='sudo salt-call'
-alias ct='sudo salt-call state.sls'
+alias cct='sudo salt-call state.sls'
+alias cctt='sudo salt-call state.sls test=True'
 alias ccpi='sudo salt-call pillar.items'
 alias ccpg='sudo salt-call pillar.get'
 alias ccgi='sudo salt-call grains.items'
 alias ccgg='sudo salt-call grains.get'
+alias cch='sudo salt-call state.highstate'
+alias ccht='sudo salt-call state.highstate test=True'
+alias cck='sudo salt-key'
+alias ccv='salt-call --versions-report'
+alias ccr='sudo salt'
 
-function ctt()
-{
-    local state=$1
-
-    if [ -z "$state" ]; then
-        echo "please pass a Salt state name" >&2
+function runner() {
+    if [ $# -lt 2 ]; then
+        echo "$0: ${FUNCNAME}(): requires at least 2 arguments" >&2
         return
     fi
 
-    sudo salt-call state.sls "$state" test=True
+    local func=$1 # backwards invocation from normal `salt' cli,
+    local targ=$2 # (ie., module _then_ target).
+    shift; shift
+
+    sudo salt "$targ" "$func" "$@"
 }
+
+alias ccrtp='runner test.ping'
+alias ccrtpa='runner test.ping \*'
+
+alias ccrt='runner state.sls'
+alias ccrtt='runner state.sls test=true'
+
+alias ccrh='runner state.highstate'
+alias ccrht='runner state.highstate test=True'
+
+alias ccrcmd='runner cmd.run'
