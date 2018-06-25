@@ -1,19 +1,44 @@
 # vim: set ft=sh :
 
+# Commands
+alias c='sudo salt'
+alias cr='sudo salt-run'
 alias cc='sudo salt-call'
+alias ck='sudo salt-key'
+alias cka='sudo salt-key -lall'
+
+#####################
+# salt-call
+#####################
+# state.sls
 alias cct='sudo salt-call state.sls'
 alias cctt='sudo salt-call state.sls test=True'
+
+# sync
+alias ccsa='sudo salt-call saltutil.sync_all'
+alias ccss='sudo salt-call saltutil.sync_states'
+alias ccsm='sudo salt-call saltutil.sync_modules'
+alias ccsg='sudo salt-call saltutil.sync_grains'
+
+# pillar
 alias ccpi='sudo salt-call pillar.items'
 alias ccpg='sudo salt-call pillar.get'
+
+# grains
 alias ccgi='sudo salt-call grains.items'
 alias ccgg='sudo salt-call grains.get'
+
+# highstate
 alias cch='sudo salt-call state.highstate'
 alias ccht='sudo salt-call state.highstate test=True'
-alias cck='sudo salt-key'
-alias ccv='salt-call --versions-report'
-alias ccr='sudo salt'
 
-function runner() {
+# version
+alias ccv='salt-call --versions-report'
+
+#####################
+# salt
+#####################
+function salt_wrap() {
     if [ $# -lt 2 ]; then
         echo "$0: ${FUNCNAME}(): requires at least 2 arguments" >&2
         return
@@ -26,13 +51,17 @@ function runner() {
     sudo salt "$targ" "$func" "$@"
 }
 
-alias ccrtp='runner test.ping'
-alias ccrtpa='runner test.ping \*'
+# test.ping
+alias ctp='salt_wrap test.ping'
+alias ctpa='salt_wrap test.ping \*'
 
-alias ccrt='runner state.sls'
-alias ccrtt='runner state.sls test=true'
+# state.sls
+alias ct='salt_wrap state.sls'
+alias ctt='salt_wrap state.sls test=true'
 
-alias ccrh='runner state.highstate'
-alias ccrht='runner state.highstate test=True'
+# highstate
+alias ch='salt_wrap state.highstate'
+alias cht='salt_wrap state.highstate test=True'
 
-alias ccrcmd='runner cmd.run'
+# cmd.run
+alias crun='salt_wrap cmd.run'
