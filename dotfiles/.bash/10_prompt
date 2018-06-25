@@ -5,6 +5,7 @@ function colorize() {
     echo -e "\\[\e[${code}m\\]"
 }
 
+# colors
 blk="$(colorize '0;30')"
 red="$(colorize '0;31')"
 grn="$(colorize '0;32')"
@@ -25,21 +26,51 @@ wht_b="$(colorize '1;37')"
 
 red_blk="$(colorize '0;31;40')"
 grn_blk="$(colorize '0;32;40')"
+ylw_blk="$(colorize '0;33;40')"
 blu_blk="$(colorize '0;34;40')"
+cyn_blk="$(colorize '0;36;40')"
 wht_blk="$(colorize '0;37;40')"
 
 blk_blk_b="$(colorize '1;30;40')"
 red_blk_b="$(colorize '1;31;40')"
 grn_blk_b="$(colorize '1;32;40')"
+ylw_blk_b="$(colorize '1;33;40')"
+cyn_blk_b="$(colorize '1;36;40')"
 wht_blk_b="$(colorize '1;37;40')"
 
 norm="$(colorize '0')"
 
+# default hostname colors
+host_color=${grn_blk_b}
+site_color=${grn_blk}
+
+# hostname colors for different places
+site=$(hostname -f |cut -f2 -d.)
+
+if [ "${site}" = "qai" -o "${site}" = "qai2" ]; then
+    host_color=${cyn_blk_b}
+    site_color=${cyn_blk}
+
+elif [ "${site}" = "ops" ]; then
+    host_color=${blk_b}
+    site_color=${blk}
+
+elif hostname -f |grep -q 'expertcity\.com$'; then
+    host_color=${red_blk_b}
+    site_color=${red_blk}
+
+elif [ "${site}" = "users01" ]; then
+    host_color=${ylw_blk_b}
+    site_color=${ylw_blk}
+fi
+
 export PS1="\
 ${blk}\u@\
-${grn_blk_b}\h\
-${grn_blk}[$(hostname -f |cut -f3 -d.)]\
+${host_color}\h\
+${site_color}[${site}]\
 ${blk}[\
 ${cyn}\w\
 ${blk}]\
 ${blk_b}\$ ${norm}"
+
+shopt -s checkwinsize
