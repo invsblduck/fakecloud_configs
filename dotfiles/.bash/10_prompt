@@ -47,22 +47,29 @@ site_color=${grn_blk}
 # hostname colors for different places
 site=$(hostname -f |cut -f2 -d.)
 
-if [ "${site}" = "qai" -o "${site}" = "qai2" ]; then
-    host_color=${cyn_blk_b}
-    site_color=${cyn_blk}
+case "${site}" in
+    qai*|onvd|ocai)
+        host_color=${cyn_blk_b}
+        site_color=${cyn_blk}
+        ;;
 
-elif [ "${site}" = "ops" ]; then
-    host_color=${blk_b}
-    site_color=${blk}
+    ops)
+        host_color=${blk_b}
+        site_color=${blk}
+        ;;
 
-elif hostname -f |grep -q 'expertcity\.com$'; then
-    host_color=${red_blk_b}
-    site_color=${red_blk}
+    users01)
+        host_color=${ylw_blk_b}
+        site_color=${ylw_blk}
+        ;;
 
-elif [ "${site}" = "users01" ]; then
-    host_color=${ylw_blk_b}
-    site_color=${ylw_blk}
-fi
+    *)
+        if hostname -f |grep -q 'expertcity\.com$'; then
+            host_color=${red_blk_b}
+            site_color=${red_blk}
+        fi
+        ;;
+esac
 
 export PS1="\
 ${blk}\u@\
