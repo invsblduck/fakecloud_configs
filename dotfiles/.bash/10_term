@@ -1,0 +1,7 @@
+# eg., `screen256'
+if [[ "$TERM" =~ screen ]]; then
+    if [ -f /etc/termcap ]; then
+        # downgrade on older systems
+        export TERM=screen
+    fi
+fi 
