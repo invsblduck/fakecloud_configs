@@ -1,2 +1,4 @@
 # vim: set ft=sh:
 alias wm='cat ~/.motd.old |sudo -S -l'
+alias tmi='tmux -V || ( wm && w rpm -Uvh ${HOME}/tmux*.rpm )'
+alias tmn='tmux new'
