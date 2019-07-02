@@ -23,3 +23,4 @@ for f in ~/.bash/*; do
     source $f
 done
 
+[ -f ~/.motd.old ] && rm -fv ~/.motd.old
